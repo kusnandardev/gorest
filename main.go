@@ -1,7 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"RestGo/pkg/infrastucture/rest/router"
+)
 
 func main() {
-	fmt.Println("Hello World")
+	routersInit := router.InitRouter()
+
+	routersInit.Run(":8000")
 }
