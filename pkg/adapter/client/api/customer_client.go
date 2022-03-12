@@ -32,7 +32,7 @@ func (c *CustomerAPI) GetByUsername(username string) (entity.Customer, error) {
 		}
 	}
 	if !found {
-		return entity.Customer{}, errors.New("not found")
+		return entity.Customer{}, errors.New("username not found")
 	}
 	return cust, nil
 }

@@ -38,6 +38,6 @@ func (h *CustomerHandler) Login(c *gin.Context) {
 		util.NewResponse(c).InternalServerError(err.Error())
 		return
 	}
-	util.NewResponse(c).Created(resp)
+	util.NewResponse(c).Ok(resp)
 	return
 }

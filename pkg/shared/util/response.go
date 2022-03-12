@@ -20,6 +20,11 @@ func NewResponse(ctx *gin.Context) *Response {
 	return &Response{Context: ctx}
 }
 
+func (r *Response) Ok(content interface{}) {
+	r.Context.JSON(http.StatusOK, content)
+	return
+}
+
 func (r *Response) Created(content interface{}) {
 	r.Context.JSON(http.StatusCreated, content)
 	return

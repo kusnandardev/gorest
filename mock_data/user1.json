@@ -1,25 +1,25 @@
 [
   {
     "username": "user1",
-    "password": "user",
+    "password": "$2a$10$JT8/nJ7lPzhYTbMv/BXGTOGXok5aRInj3Fn0Fzs4aq1UhS/.Mkyga",
     "name": "Toni Kusnandar",
     "balance": 50000000
   },
   {
     "username": "user2",
-    "password": "user",
+    "password": "$2a$10$JT8/nJ7lPzhYTbMv/BXGTOGXok5aRInj3Fn0Fzs4aq1UhS/.Mkyga",
     "name": "Just Toni",
     "balance": 100000
   },
   {
     "username": "user3",
-    "password": "user",
+    "password": "$2a$10$JT8/nJ7lPzhYTbMv/BXGTOGXok5aRInj3Fn0Fzs4aq1UhS/.Mkyga",
     "name": "Mr Kusnandar",
     "balance": 175000
   },
   {
     "username": "user4",
-    "password": "user",
+    "password": "$2a$10$JT8/nJ7lPzhYTbMv/BXGTOGXok5aRInj3Fn0Fzs4aq1UhS/.Mkyga",
     "name": "kusnandartoni",
     "balance": 675000000
   }
