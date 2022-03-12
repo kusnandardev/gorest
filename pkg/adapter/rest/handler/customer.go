@@ -33,7 +33,11 @@ func (h *CustomerHandler) Login(c *gin.Context) {
 		return
 	}
 
-	_, err = h.customerService.Authenticate(authData)
-
+	resp, err := h.customerService.Authenticate(authData)
+	if err != nil {
+		util.NewResponse(c).InternalServerError(err.Error())
+		return
+	}
+	util.NewResponse(c).Created(resp)
 	return
 }
