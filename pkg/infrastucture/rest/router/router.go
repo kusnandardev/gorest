@@ -31,7 +31,7 @@ func InitRouter() *gin.Engine {
 
 	r.POST("/transaction/transfer", middleware.AuthorizeJWT(), handler.NewTransactionHandler(ctn.Resolve(enum.TransactionContainer).(*transaction.Interactor)).Transfer)
 
-	r.POST("/customer/logout")
+	r.POST("/customer/logout", middleware.AuthorizeJWT(), handler.NewCustomerHandler(ctn.Resolve(enum.CustomerContainer).(*customer.Interactor), ctn.Resolve(enum.JWTContainer).(*jwt.Interactor)).Logout)
 
 	return r
 }

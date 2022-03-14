@@ -7,4 +7,5 @@ import (
 
 type InputPort interface {
 	Authenticate(data request.LoginRequestDto) (response.LoginResponseDto, error)
+	EndSession(token string) error
 }

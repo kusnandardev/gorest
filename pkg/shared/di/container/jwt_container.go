@@ -1,6 +1,7 @@
 package container
 
 import (
+	"RestGo/pkg/adapter/db/inmemory"
 	"RestGo/pkg/usecase/jwt"
 	"github.com/sarulabs/di"
 )
@@ -8,5 +9,6 @@ import (
 func JwtContainer(ctn di.Container) (interface{}, error) {
 	request, _ := ctn.SubContainer()
 	defer request.Delete()
-	return jwt.NewJWTInteractor(), nil
+	cc := inmemory.DefaultCacheHandler()
+	return jwt.NewJWTInteractor(cc), nil
 }

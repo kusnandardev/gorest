@@ -6,20 +6,18 @@ import (
 	"RestGo/pkg/domain/repository"
 	"RestGo/pkg/shared/util"
 	"errors"
-	"github.com/patrickmn/go-cache"
-	"time"
+	"fmt"
 )
 
 type Interactor struct {
 	customerClient repository.CustomerRepository
-	cache          *cache.Cache
+	cache          repository.Inmemory
 }
 
-func NewCustomerInteractor(cust repository.CustomerRepository) *Interactor {
-	c := cache.New(5*time.Minute, 10*time.Minute)
+func NewCustomerInteractor(cust repository.CustomerRepository, cc repository.Inmemory) *Interactor {
 	return &Interactor{
 		customerClient: cust,
-		cache:          c,
+		cache:          cc,
 	}
 }
 
@@ -36,4 +34,14 @@ func (i *Interactor) Authenticate(data request.LoginRequestDto) (response.LoginR
 		Username: resp.Username,
 		Name:     resp.Name,
 	}, nil
+}
+
+func (i *Interactor) EndSession(token string) error {
+	err := i.cache.Delete(token)
+	if err != nil {
+		return err
+	}
+	value, err := i.cache.Get(token)
+	fmt.Println(value)
+	return nil
 }

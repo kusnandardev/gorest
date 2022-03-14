@@ -46,3 +46,14 @@ func (h *CustomerHandler) Login(c *gin.Context) {
 	util.NewResponse(c).Ok(result)
 	return
 }
+
+func (h *CustomerHandler) Logout(c *gin.Context) {
+
+	err := h.customerService.EndSession(util.GetToken(c))
+	if err != nil {
+		util.NewResponse(c).InternalServerError(err.Error())
+		return
+	}
+	util.NewResponse(c).Ok(gin.H{"message": "success logout"})
+	return
+}

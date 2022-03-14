@@ -18,7 +18,7 @@ func NewTransactionAPI(ctn di.Container) *TransactionAPI {
 	return &TransactionAPI{cache: cc}
 }
 
-func (t TransactionAPI) WriteTransaction(data entity.Transaction) error {
+func (t *TransactionAPI) WriteTransaction(data entity.Transaction) error {
 	wd, err := os.Getwd()
 	if err != nil {
 		return err
@@ -35,7 +35,7 @@ func (t TransactionAPI) WriteTransaction(data entity.Transaction) error {
 	return nil
 }
 
-func (t TransactionAPI) MoveBalance(data entity.BalanceMovement) (int, error) {
+func (t *TransactionAPI) MoveBalance(data entity.BalanceMovement) (int, error) {
 	wd, err := os.Getwd()
 	if err != nil {
 		return 0, err

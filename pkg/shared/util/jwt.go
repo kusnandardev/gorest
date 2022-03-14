@@ -2,6 +2,7 @@ package util
 
 import (
 	"github.com/dgrijalva/jwt-go"
+	"github.com/gin-gonic/gin"
 )
 
 func GetClaims(bearer string) (jwt.StandardClaims, error) {
@@ -15,4 +16,10 @@ func GetClaims(bearer string) (jwt.StandardClaims, error) {
 		}
 	}
 	return jwt.StandardClaims{}, err
+}
+
+func GetToken(c *gin.Context) string {
+	const BEARER_SCHEMA = "Bearer "
+	authHeader := c.GetHeader("Authorization")
+	return authHeader[len(BEARER_SCHEMA):]
 }

@@ -47,7 +47,7 @@ func (c *CustomerAPI) GetByUsername(username string) (entity.Customer, error) {
 	return cust, nil
 }
 
-func (c CustomerAPI) IsCustomerExist(userid string) bool {
+func (c *CustomerAPI) IsCustomerExist(userid string) bool {
 	customers, err := c.getAll()
 	if err != nil {
 		return false

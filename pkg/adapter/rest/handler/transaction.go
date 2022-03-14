@@ -16,7 +16,7 @@ func NewTransactionHandler(uc transaction.InputPort) *TransactionHandler {
 	return &TransactionHandler{transactionService: uc}
 }
 
-func (t TransactionHandler) Transfer(c *gin.Context) {
+func (t *TransactionHandler) Transfer(c *gin.Context) {
 	var (
 		claim map[string]interface{}
 		req   = request.TransferRequestDto{}

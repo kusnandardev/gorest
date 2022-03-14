@@ -1,7 +1,7 @@
 package main
 
 import (
-	"RestGo/pkg/infrastucture/db/cache"
+	"RestGo/pkg/infrastucture/db/inmemory"
 	"RestGo/pkg/infrastucture/rest/router"
 	"RestGo/pkg/infrastucture/simulate_log"
 )
@@ -12,8 +12,8 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	c := cache.NewCache()
-	c.SetCache()
+
+	inmemory.InitCache()
 	routersInit := router.InitRouter()
 
 	routersInit.Run(":8000")
