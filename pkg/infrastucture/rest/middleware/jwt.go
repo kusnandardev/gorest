@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"RestGo/pkg/adapter/db/inmemory"
+	"RestGo/pkg/shared/logger"
 	"RestGo/pkg/usecase/jwt"
 	djwt "github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
@@ -11,10 +12,12 @@ import (
 
 func AuthorizeJWT() gin.HandlerFunc {
 	return func(c *gin.Context) {
+
 		const BEARER_SCHEMA = "Bearer "
 		authHeader := c.GetHeader("Authorization")
 		if !strings.HasPrefix(authHeader, BEARER_SCHEMA) {
 			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": "auth required"})
+			logger.Warning("auth required")
 			return
 		}
 		tokenString := authHeader[len(BEARER_SCHEMA):]
@@ -22,10 +25,12 @@ func AuthorizeJWT() gin.HandlerFunc {
 
 		if !token.Valid {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"message": "invalid token, please re-login"})
+			logger.Warning("invalid token, please re-login")
 			return
 		}
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+			logger.Error("invalid token, please re-login")
 			return
 		}
 		c.Set("claims", token.Claims.(djwt.MapClaims))

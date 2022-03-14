@@ -31,7 +31,7 @@ func (i *Interactor) Transfer(data request.TransferRequestDto) (response.Transfe
 	}
 	dstCust, err := i.customerClient.GetByUsername(data.DestinationId)
 	if err != nil {
-		return response.TransferResponseDto{}, errors.New("source id is invalid")
+		return response.TransferResponseDto{}, errors.New("destination id is invalid")
 	}
 
 	// check is cust balance more than transfer amount

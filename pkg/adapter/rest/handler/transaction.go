@@ -2,6 +2,7 @@ package handler
 
 import (
 	"RestGo/pkg/domain/dto/request"
+	"RestGo/pkg/shared/logger"
 	"RestGo/pkg/shared/util"
 	"RestGo/pkg/usecase/transaction"
 	"github.com/gin-gonic/gin"
@@ -25,16 +26,20 @@ func (t *TransactionHandler) Transfer(c *gin.Context) {
 
 	if err != nil {
 		util.NewResponse(c).InternalServerError(err.Error())
+		logger.Error(err.Error())
 		return
 	}
 	c.ShouldBind(&req)
 	req.SourceId = claim["jti"].(string)
 
+	logger.Info(req)
 	res, err := t.transactionService.Transfer(req)
 	if err != nil {
 		util.NewResponse(c).InternalServerError(err.Error())
+		logger.Error(err.Error())
 		return
 	}
 	util.NewResponse(c).Ok(res)
+	logger.Info(res)
 	return
 }

@@ -4,6 +4,7 @@ import (
 	"RestGo/pkg/infrastucture/db/inmemory"
 	"RestGo/pkg/infrastucture/rest/router"
 	"RestGo/pkg/infrastucture/simulate_log"
+	"RestGo/pkg/shared/logger"
 )
 
 func main() {
@@ -13,6 +14,7 @@ func main() {
 		panic(err)
 	}
 
+	logger.Setup()
 	inmemory.InitCache()
 	routersInit := router.InitRouter()
 
