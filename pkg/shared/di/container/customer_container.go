@@ -10,7 +10,7 @@ func CustomerContainer(ctn di.Container) (interface{}, error) {
 	request, _ := ctn.SubContainer()
 	defer request.Delete()
 
-	cust := api.NewCustomerAPI()
+	cust := api.NewCustomerAPI(request)
 
 	return customer.NewCustomerInteractor(cust), nil
 }

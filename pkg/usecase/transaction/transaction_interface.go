@@ -1,4 +1,4 @@
-package customer
+package transaction
 
 import (
 	"RestGo/pkg/domain/dto/request"
@@ -6,5 +6,5 @@ import (
 )
 
 type InputPort interface {
-	Authenticate(data request.LoginRequestDto) (response.LoginResponseDto, error)
+	Transfer(transferData request.TransferRequestDto) (response.TransferResponseDto, error)
 }

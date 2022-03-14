@@ -37,6 +37,13 @@ func (r *Response) BadRequest(msg string) {
 	return
 }
 
+func (r *Response) Unauthorize(msg string) {
+	r.Context.JSON(http.StatusUnauthorized, ResponseData{
+		Message: msg,
+	})
+	return
+}
+
 func (r *Response) InternalServerError(msg string) {
 	r.Context.JSON(http.StatusInternalServerError, ResponseData{
 		Message: msg,

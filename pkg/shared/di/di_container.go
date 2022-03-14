@@ -15,6 +15,9 @@ func NewContainer() *Container {
 
 	_ = builder.Add([]di.Def{
 		{Name: string(enum.CustomerContainer), Build: container.CustomerContainer},
+		{Name: string(enum.CacheContainer), Scope: di.Request, Build: container.MainCacheContainer},
+		{Name: string(enum.JWTContainer), Build: container.JwtContainer},
+		{Name: string(enum.TransactionContainer), Build: container.TransactionContainer},
 	}...)
 
 	return &Container{

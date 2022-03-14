@@ -6,7 +6,6 @@ import (
 	"RestGo/pkg/domain/repository"
 	"RestGo/pkg/shared/util"
 	"errors"
-	"github.com/mitchellh/mapstructure"
 	"github.com/patrickmn/go-cache"
 	"time"
 )
@@ -24,31 +23,17 @@ func NewCustomerInteractor(cust repository.CustomerRepository) *Interactor {
 	}
 }
 
-func (i *Interactor) Authenticate(authData interface{}) (interface{}, error) {
-	var (
-		data request.LoginRequestDto
-		rsp  response.LoginResponseDto
-	)
-	err := mapstructure.Decode(authData, &data)
-	if err != nil {
-		return nil, err
-	}
+func (i *Interactor) Authenticate(data request.LoginRequestDto) (response.LoginResponseDto, error) {
 	resp, err := i.customerClient.GetByUsername(data.Username)
 	if err != nil {
-		return nil, err
+		return response.LoginResponseDto{}, err
 	}
 	err = util.Compare(resp.Password, data.Password)
 	if err != nil {
-		return nil, errors.New("Wrong Password")
+		return response.LoginResponseDto{}, errors.New("Wrong Password")
 	}
-
-	mapstructure.Decode(resp, &rsp)
-
-	token, err := util.GenerateToken(resp.Username)
-	if err != nil {
-		return nil, err
-	}
-	rsp.Token = token
-	i.cache.Set(token, rsp.Username, cache.DefaultExpiration)
-	return rsp, nil
+	return response.LoginResponseDto{
+		Username: resp.Username,
+		Name:     resp.Name,
+	}, nil
 }

@@ -1,43 +1,48 @@
 package handler
 
 import (
+	"RestGo/pkg/domain/dto/request"
 	"RestGo/pkg/shared/util"
 	"RestGo/pkg/usecase/customer"
-	"github.com/astaxie/beego/validation"
+	"RestGo/pkg/usecase/jwt"
 	"github.com/gin-gonic/gin"
 )
 
 type CustomerHandler struct {
 	customerService customer.InputPort
+	jwtService      jwt.InputPort
 }
 
-func NewCustomerHandler(uc customer.InputPort) *CustomerHandler {
-	return &CustomerHandler{customerService: uc}
+func NewCustomerHandler(uc customer.InputPort, jwt jwt.InputPort) *CustomerHandler {
+	return &CustomerHandler{customerService: uc, jwtService: jwt}
 }
 
 func (h *CustomerHandler) Login(c *gin.Context) {
-	authData, err := util.NewMapper(c).GetAuthData()
-	if err != nil {
-		util.NewResponse(c).BadRequest(err.Error())
+	user, password, hasAuth := c.Request.BasicAuth()
+	authData := request.LoginRequestDto{
+		Username: user,
+		Password: password,
+	}
+
+	if !hasAuth {
+		util.NewResponse(c).BadRequest("use basic auth")
 		return
 	}
 
-	validator := validation.Validation{}
-	check, err := validator.Valid(authData)
+	result, err := h.customerService.Authenticate(authData)
+	if err != nil {
+		util.NewResponse(c).Unauthorize(err.Error())
+		return
+	}
+
+	token, err := h.jwtService.GenerateToken(authData.Username)
 	if err != nil {
 		util.NewResponse(c).InternalServerError(err.Error())
 		return
 	}
-	if !check {
-		util.NewResponse(c).BadRequest(util.MarkErrors(validator.Errors))
-		return
-	}
 
-	resp, err := h.customerService.Authenticate(authData)
-	if err != nil {
-		util.NewResponse(c).InternalServerError(err.Error())
-		return
-	}
-	util.NewResponse(c).Ok(resp)
+	result.Token = token
+
+	util.NewResponse(c).Ok(result)
 	return
 }
